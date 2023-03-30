@@ -15,13 +15,15 @@ app = Flask(__name__)
 def index(): 
 
     movies = [] 
+
+ 
  
 
     if request.method == 'POST': 
 
         search_query = request.form['search_query'] 
 
-        api_key = "45558c91" 
+        api_key = "f0674f3f" 
 
         url = f"http://www.omdbapi.com/?s={search_query}&apikey={api_key}" 
 
@@ -30,6 +32,23 @@ def index():
         data = response.json() 
 
         print(data) #look in the terminal at the data 
+
+ 
+        #If the response is true from the JSON then send the movies to the webpage... 
+
+        if data.get('Response') == 'True': 
+
+            movies = data["Search"] # this gets the array of movies using the key Search 
+
+            return render_template('index.html', movies=movies) 
+
+        else: 
+
+            print("Bad Response!") 
+
+ 
+
+ 
 
  
  
@@ -42,3 +61,6 @@ def index():
 if __name__ == "__main__": 
 
     app.run(debug=True) 
+
+ 
+ 
